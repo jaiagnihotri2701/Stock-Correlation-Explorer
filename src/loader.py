@@ -3,9 +3,6 @@ import zipfile
 import pandas as pd
 
 def _read_zip(zip_path: str) -> pd.DataFrame:
-    """
-    Read a zip file containing CSV files and return a concatenated DataFrame.
-    """
 
     dataframes = []
 
@@ -35,10 +32,8 @@ def _read_zip(zip_path: str) -> pd.DataFrame:
                 dataframes.append(df)
     return pd.concat(dataframes, ignore_index=True) 
 
+#Load stock data from a zip file and return a cleaned DataFrame.
 def load_stock_data(zip_path: str) -> pd.DataFrame:
-    """
-    Load stock data from a zip file and return a cleaned DataFrame.
-    """
 
     df = _read_zip(zip_path)
 

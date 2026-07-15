@@ -6,11 +6,6 @@ from src.transformer import validate_and_clean_data
 
 
 def sample_data():
-    """
-    4 distinct (Ticker, Date) rows, no duplicates, no missing values.
-    Individual tests add exactly the one issue they want to test on
-    top of this clean base.
-    """
     return pd.DataFrame(
         {
             "Ticker": ["A", "B", "C", "D"],

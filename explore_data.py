@@ -1,4 +1,4 @@
-#inferences
+#results
 #900 csv files, approximately 3.5 years of data 
 #5000 stocks
 #every trading day contains all stocks
@@ -13,10 +13,6 @@ ZIP_PATH = "data/stock_data.zip"
 
 
 def validate_date_matches_filename(file, df):
-    """
-    Check that the date in the filename matches the date stored in the CSV.
-    """
-
     filename = file.split("/")[-1]              # e.g. 20200101.csv
     filename_date = filename.replace(".csv", "")
 
@@ -32,10 +28,6 @@ def validate_date_matches_filename(file, df):
 
 
 def validate_missing_prices(file, df, missing_price_files):
-    """
-    Check for missing prices.
-    """
-
     missing_rows = df[df["Price"].isna()]
 
     if not missing_rows.empty:
@@ -43,19 +35,11 @@ def validate_missing_prices(file, df, missing_price_files):
 
 
 def validate_duplicate_tickers(file, df, duplicate_ticker_files):
-    """
-    Check for duplicate tickers within a trading day.
-    """
-
     if df["Ticker"].duplicated().any():
         duplicate_ticker_files.append(file)
 
 
 def validate_dataset(file, df, missing_price_files, duplicate_ticker_files):
-    """
-    Run all validation checks.
-    """
-
     validate_date_matches_filename(file, df)
     validate_missing_prices(file, df, missing_price_files)
     validate_duplicate_tickers(file, df, duplicate_ticker_files)
@@ -94,21 +78,6 @@ def main():
             row_counts.append(len(df))
             unique_tickers.update(df["Ticker"])
 
-            # Print information for the first file only
-            if i == 0:
-                print("\nFirst few rows:")
-                print(df.head())
-
-                print("\nColumns:")
-                print(df.columns.tolist())
-
-                print("\nData info:")
-                df.info()
-
-                print("\nUnique dates in first file:")
-                print(df["Date"].unique())
-
-    print("\n========== DATASET SUMMARY ==========")
     print(f"Processed files      : {len(csv_files)}")
     print(f"Unique tickers       : {len(unique_tickers)}")
     print(f"Minimum rows/file    : {min(row_counts)}")
@@ -122,7 +91,7 @@ def main():
             print(rows)
 
     else:
-        print("\n✓ No missing prices found.")
+        print("\n No missing prices found.")
 
     if duplicate_ticker_files:
         print(f"\nFiles with duplicate tickers ({len(duplicate_ticker_files)}):")

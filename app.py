@@ -12,7 +12,6 @@ from src.correlation import calculate_correlation_matrix
 
 MAX_STOCKS = 100
 
-# Cache preprocessing pipeline
 @st.cache_data
 def load_pipeline():
     parquet_path = Path("data/returns.parquet")
@@ -45,8 +44,6 @@ st.write(
     """
 )
 
-
-# Load data
 with st.spinner("Loading stock data..."):
     returns = load_pipeline()
 
@@ -112,7 +109,7 @@ if st.sidebar.button("Analyze"):
         if correlations.empty:
             st.warning(
                 f"{stock} doesn't have enough trading history in this "
-                "window to compute correlations."
+                "window to compute correlations"
             )
             st.stop()
 

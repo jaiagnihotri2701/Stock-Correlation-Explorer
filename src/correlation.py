@@ -2,16 +2,13 @@ import pandas as pd
 
 DEFAULT_WINDOW = 20
 
-
+#Calculate the rolling correlation matrix for a given date.
 def calculate_correlation_matrix(
     returns: pd.DataFrame,
     date: str | pd.Timestamp,
     window: int = DEFAULT_WINDOW,
     tickers: list[str] | None = None,
 ) -> pd.DataFrame:
-    """
-    Calculate the rolling correlation matrix for a given date.
-    """
 
     if returns.empty:
         raise ValueError("Returns DataFrame is empty.")

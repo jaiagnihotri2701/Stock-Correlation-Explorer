@@ -5,11 +5,6 @@ import pytest
 
 from src.loader import load_stock_data
 
-
-# ---------------------------------------------------------
-# Failure paths
-# ---------------------------------------------------------
-
 def test_no_csv_files(tmp_path):
     """
     Test that loading a ZIP archive with no CSV files raises an error.
@@ -22,11 +17,8 @@ def test_no_csv_files(tmp_path):
     with pytest.raises(ValueError, match="No CSV files found"):
         load_stock_data(zip_path)
 
-
+#missing price column gives error
 def test_missing_required_columns(tmp_path):
-    """
-    Test that a CSV missing the Price column raises an error.
-    """
     csv_data = (
         "Ticker,Date,SecPrice\n"
         "A,2020-01-01,20.0\n"
@@ -41,15 +33,8 @@ def test_missing_required_columns(tmp_path):
         load_stock_data(zip_path)
 
 
-# ---------------------------------------------------------
-# Happy path
-# ---------------------------------------------------------
-
+#happy path
 def test_successful_load(tmp_path):
-    """
-    A well-formed zip should load with the correct columns, row count,
-    and dtypes (Date as datetime, Price as numeric).
-    """
     csv_data = (
         "Ticker,Date,Price\n"
         "AAPL,2020-01-02,150.0\n"
@@ -69,15 +54,8 @@ def test_successful_load(tmp_path):
     assert pd.api.types.is_numeric_dtype(df["Price"])
 
 
-# ---------------------------------------------------------
-# "NA" ticker edge case
-# ---------------------------------------------------------
-
+#tests keep_default_na=False preserving NA tickrs
 def test_na_ticker_preserved_not_treated_as_null(tmp_path):
-    """
-    keep_default_na=False must preserve a literal 'NA' ticker symbol
-    rather than pandas silently converting it to a missing value.
-    """
     csv_data = "Ticker,Date,Price\nNA,2020-01-02,10.0\n"
 
     zip_path = tmp_path / "na_ticker.zip"

@@ -4,15 +4,8 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-
 def validate_and_clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Remove rows with missing prices and duplicate (Ticker, Date) pairs.
-
-    Logs the number of rows removed. If more than 1% of the original
-    rows are removed, logs an error, for further analysis
-    """
-
+ 
     original_rows = len(df)
 
     # Remove rows with missing prices and dates
@@ -36,11 +29,8 @@ def validate_and_clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-
+#transforming to a pivoted price matrix
 def transform_to_price_matrix(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Transform the cleaned long-form DataFrame into a pivoted price matrix.
-    """
 
     required_columns = {"Ticker", "Date", "Price"}
 
